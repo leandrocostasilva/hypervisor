@@ -1,0 +1,128 @@
+---
+- name: 'Instala pacotes do kvm e virt-manager'
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  become: yes
+  with_items:
+    - libguestfs-tools
+    - virt-top
+    - virt-install
+    - bridge-utils
+    - libvirt
+    - corosynclib
+    - cyrus-sasl
+    - edk2-ovmf
+    - genisoimage
+    - glusterfs
+    - glusterfs-api
+    - glusterfs-cli
+    - glusterfs-client-xlators
+    - glusterfs-fuse
+    - glusterfs-libs
+    - gtk-vnc2
+    - gtksourceview4
+    - gvnc
+    - ipxe-roms-qemu
+    - iscsi-initiator-utils
+    - iscsi-initiator-utils-iscsiuio
+    - isns-utils-libs
+    - libcacard
+    - libfdt
+    - libibumad
+    - libibverbs
+    - libiscsi
+    - libosinfo
+    - libphodav
+    - libpmem
+    - libqb
+    - librados2
+    - librbd1
+    - librdmacm
+    - libslirp
+    - libssh2
+    - libusal
+    - libvirt-daemon
+    - libvirt-daemon-driver-interface
+    - libvirt-daemon-driver-network
+    - libvirt-daemon-driver-nodedev
+    - libvirt-daemon-driver-nwfilter
+    - libvirt-daemon-driver-qemu
+    - libvirt-daemon-driver-secret
+    - libvirt-daemon-driver-storage
+    - libvirt-daemon-driver-storage-core
+    - libvirt-daemon-driver-storage-disk
+    - libvirt-daemon-driver-storage-gluster
+    - libvirt-daemon-driver-storage-iscsi
+    - libvirt-daemon-driver-storage-iscsi-direct
+    - libvirt-daemon-driver-storage-logical
+    - libvirt-daemon-driver-storage-mpath
+    - libvirt-daemon-driver-storage-rbd
+    - libvirt-daemon-driver-storage-scsi
+    - libvirt-daemon-driver-storage-sheepdog
+    - libvirt-daemon-driver-storage-zfs
+    - libvirt-glib
+    - libvirt-libs
+    - libwsman1
+    - lttng-ust
+    - lzop
+    - netcf-libs
+    - numad
+    - osinfo-db
+    - osinfo-db-tools
+    - python3-libvirt
+    - qemu-audio-alsa
+    - qemu-audio-oss
+    - qemu-audio-pa
+    - qemu-audio-sdl
+    - qemu-block-curl
+    - qemu-block-dmg
+    - qemu-block-gluster
+    - qemu-block-iscsi
+    - qemu-block-nfs
+    - qemu-block-rbd
+    - qemu-block-ssh
+    - qemu-common
+    - qemu-img
+    - qemu-kvm
+    - qemu-system-x86
+    - qemu-system-x86-core
+    - qemu-ui-curses
+    - qemu-ui-gtk
+    - qemu-ui-sdl
+    - radvd
+    - rdma-core
+    - seabios-bin
+    - seavgabios-bin
+    - sgabios-bin
+    - sheepdog
+    - spice-glib
+    - spice-gtk3
+    - spice-server
+    - systemd-container
+    - usbredir
+    - virglrenderer
+    - virt-manager-common
+    - xen-libs
+    - xen-licenses
+    - yajl
+    - zfs-fuse
+    - libvirt-daemon-config-network
+    - libvirt-daemon-kvm 
+    - virt-manager
+    - xorg-x11-drv-nvidia-390xx
+    - akmod-nvidia-390xx
+- name: Adicionando o usuario do hipervisor ao grupo libvirt
+  user:
+    name: '{{ whoami }}'
+    comment: usuario do hypervisor
+    uid: '{{ uid }}'
+    group: libvirt
+  become: yes
+  
+- name: starta servico kvm
+  systemd:
+    name: libvirtd
+    state: started
+    enabled: yes
+  become: yes

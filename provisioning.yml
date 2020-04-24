@@ -1,0 +1,10 @@
+---
+- hosts: hypervisor
+  roles: 
+    - kvm
+    - maquinas_virtuais   
+    - repositorios
+    - tools
+    - drivers
+    
+    

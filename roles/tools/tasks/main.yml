@@ -1,0 +1,17 @@
+- name: 'Instala ferramentas diversas'
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  become: yes
+  with_items:
+    - bash
+    - perl-interpreter
+    - dmidecode
+    - kmod
+    - glibc
+    - lm_sensors-libs
+    - perl-libs
+    - perl-interpreter
+    - perl-constant
+    - systemd-243
+    - lm_sensors

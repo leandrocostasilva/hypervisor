@@ -1,0 +1,23 @@
+---
+vm_location: "/var/lib/libvirt/images"
+root_pass: "password"
+whoami: "leandro"
+uid: "1000"
+
+
+guests:
+  swarm_master:
+    mem: 2048
+    cpus: 2
+    os_type: rhel7
+    file_type: qcow2
+  swarm_slave1:
+    mem: 2048
+    cpus: 2
+    os_type: rhel7
+    file_type: qcow2
+  swarm_slave1:
+    mem: 2048
+    cpus: 2
+    os_type: rhel7
+    file_type: qcow2

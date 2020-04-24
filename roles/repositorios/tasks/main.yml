@@ -1,0 +1,15 @@
+---
+- name: 'Instala repositorios necessários'
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  become: yes
+  with_items:
+    - https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-31.noarch.rpm
+    - https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-31.noarch.rpm
+    
+- name: Atualizar tdos os pacotes
+  dnf:
+    name: "*"
+    state: latest
+  become: yes
