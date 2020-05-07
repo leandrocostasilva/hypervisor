@@ -1,5 +1,5 @@
 ---
-vm_location: "/var/lib/libvirt/images"
+vm_location: "/var/lib/libvirt/images/clusterswarm"
 root_pass: "password"
 whoami: "leandro"
 uid: "1000"
@@ -9,15 +9,24 @@ guests:
   swarm_master:
     mem: 2048
     cpus: 2
-    os_type: rhel7
+    os_type_disk: fedora-31
+    os_type: fedora31
     file_type: qcow2
-  swarm_slave1:
+    macadress: 08:00:27:04:3A:FC
+    networkname: cluster.swarm.master
+  swarm_worker1:
     mem: 2048
     cpus: 2
-    os_type: rhel7
+    os_type_disk: fedora-31
+    os_type: fedora31
     file_type: qcow2
-  swarm_slave1:
+    macadress: 08:00:27:9D:6E:D2
+    networkname: cluster.swarm.worker1
+  swarm_worker2:
     mem: 2048
     cpus: 2
-    os_type: rhel7
+    os_type_disk: fedora-31
+    os_type: fedora31
     file_type: qcow2
+    macadress: 08:00:27:7D:75:34
+    networkname: cluster.swarm.worker2

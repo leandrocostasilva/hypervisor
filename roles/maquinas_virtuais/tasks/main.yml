@@ -14,7 +14,8 @@
 
 - name: create disk
   command: >
-            virt-builder --format qcow2 centos-7.4
+            virt-builder 
+            --format qcow2 {{ item.value.os_type_disk }}
             -o {{ vm_location}}/{{ item.key }}.{{ item.value.file_type }}
             --root-password password:{{ root_pass }}
   when: item.key not in disks.stdout
@@ -29,10 +30,17 @@
 
 - name: create vm
   command: >
-            virt-install --import --name {{ item.key }}
-            --memory {{ item.value.mem }} --vcpus {{ item.value.cpus }}
+            virt-install 
+            --import 
+            --name {{ item.key }}
+            --memory {{ item.value.mem }} 
+            --vcpus {{ item.value.cpus }}
             --disk {{ vm_location }}/{{ item.key }}.{{ item.value.file_type }}
-            --noautoconsole --os-variant {{ item.value.os_type }}
+            --noautoconsole 
+            --os-variant {{ item.value.os_type }}
+           
+            --network  type=direct,source=enp6s0,source.mode=bridge,mac={{item.value.macadress}},model=virtio
+            --autostart
   when: item.key not in vms.list_vms
   with_dict: "{{ guests }}"
   become: yes
