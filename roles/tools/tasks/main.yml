@@ -13,5 +13,4 @@
     - perl-libs
     - perl-interpreter
     - perl-constant
-    - systemd-243
     - lm_sensors

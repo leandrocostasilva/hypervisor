@@ -2,7 +2,7 @@
 - hosts: hypervisor
   roles: 
     - kvm
-    - maquinas_virtuais   
+    - maquinas_virtuais_criar   
     - repositorios
     - tools
     - drivers

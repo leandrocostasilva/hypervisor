@@ -1,9 +1,11 @@
+#"locked:disabled"
 ---
 vm_location: "/var/lib/libvirt/images/clusterswarm"
-root_pass: "password"
-whoami: "leandro"
+vm_root_pass: "password"
+hypervisor-user: "hypervisor"
 uid: "1000"
-
+vm_user_group_name: "clusterswarm"
+vm_user_group_id: "1000"
 
 guests:
   swarm_master:
@@ -30,3 +32,11 @@ guests:
     file_type: qcow2
     macadress: 08:00:27:7D:75:34
     networkname: cluster.swarm.worker2
+  swarm_worker3:
+    mem: 2048
+    cpus: 2
+    os_type_disk: fedora-31
+    os_type: fedora31
+    file_type: qcow2
+    macadress: 52:54:00:8a:de:36
+    networkname: cluster.swarm.worker3

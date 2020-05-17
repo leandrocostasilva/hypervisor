@@ -1,4 +1,8 @@
 ---
+- name: 'Copia chave rsa para host'
+  copy:
+    src:  /home/leandro/.ssh/id_rsa.pub
+    dest:  /home/hypervisor/.ssh/id_rsa.pub
 - name: 'Instala pacotes do kvm e virt-manager'
   dnf:
     name: "{{ item }}"
@@ -110,19 +114,23 @@
     - libvirt-daemon-config-network
     - libvirt-daemon-kvm 
     - virt-manager
-    - xorg-x11-drv-nvidia-390xx
-    - akmod-nvidia-390xx
-- name: Adicionando o usuario do hipervisor ao grupo libvirt
-  user:
-    name: '{{ whoami }}'
-    comment: usuario do hypervisor
-    uid: '{{ uid }}'
-    group: libvirt
-  become: yes
-  
+
 - name: starta servico kvm
   systemd:
     name: libvirtd
     state: started
     enabled: yes
+  become: yes
+- name: Cria grupo libvirt
+  group:
+    name: libvirt
+    state: present
+  become: yes
+
+- name: Adicionando o usuario do hipervisor ao grupo libvirt
+  user:
+    name: "hypervisor"
+    comment: usuario do hypervisor
+    uid: '{{ uid }}'
+    group: libvirt
   become: yes
