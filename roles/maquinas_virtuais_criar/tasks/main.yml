@@ -1,7 +1,7 @@
 ---
 - name: Criar diretório {{ vm_location }}
   file:
-    path: "{{ vm_location }}"
+    path: "{{vm_location}}"
     state: directory
     mode: '0755'
   become: yes
@@ -12,15 +12,39 @@
   changed_when: "disks.rc != 0"
   become: yes
 
-            #--run-command 'useradd -m -G "wheel" "{{vm_user_group_name}}"'
+            #--run-command 'useradd -m -G "wheel" -p "{{vm_user_group_name}}" "{{vm_user_group_name}}"'
             #--ssh-inject {{vm_user_group_name}}:file:/home/leandro/.ssh/id_rsa.pub
+            #--root-password password:{{ vm_root_pass }}
+            #--network bridge=virbr0,mac={{item.value.macadress}}
 - name: Criando as maquinas virtuais 
   command: >
             virt-builder 
             --format qcow2 {{ item.value.os_type_disk }}
             -o {{ vm_location}}/{{ item.key }}.{{ item.value.file_type }}
-            --root-password password:{{ vm_root_pass }}           
+            --run-command 'useradd -m -G "wheel" "{{vm_user_group_name}}"'
+            --firstboot-command 'localectl set-locale LANG=pt_BR.UTF-8'
+            --hostname {{ item.value.networkname }}
   when: item.key not in disks.stdout
+  with_dict: "{{ guests }}"
+  become: yes
+
+- name: lista de  discos das vms
+  command: "ls {{ vm_location }}"
+  register: disks
+  changed_when: "disks.rc != 0"
+  become: yes
+
+- name: Customiazndo maquinas virtuais 
+  command: >
+            virt-customize
+            -a {{ vm_location}}/{{ item.key }}.{{ item.value.file_type }}
+            --colours
+            --network
+            --password {{vm_user_group_name}}:password:{{vm_user_group_name}}   
+            --selinux-relabel         
+            --ssh-inject {{vm_user_group_name}}:file:/home/hypervisor/.ssh/id_rsa.pub
+            --timezone "America/Sao_Paulo"
+  when: item.key in disks.stdout
   with_dict: "{{ guests }}"
   become: yes
 
@@ -39,7 +63,7 @@
             --memory {{ item.value.mem }} 
             --vcpus {{ item.value.cpus }}
             --disk {{ vm_location }}/{{ item.key }}.{{ item.value.file_type }}             
-            --os-variant {{ item.value.os_type }}           
+            --os-variant {{ item.value.os_type }} 
             --network  type=direct,source=enp6s0,source.mode=bridge,mac={{item.value.macadress}},model=virtio
             --autostart
             --noautoconsole

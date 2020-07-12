@@ -6,5 +6,7 @@
     - repositorios
     - tools
     - drivers
+# - hosts: clusterswarm
+#     - maquinas_virtuais_configurar_swarm
     
     

@@ -1,2 +1,7 @@
 [hypervisor]
-192.168.2.113 ansible_user=hypervisor
+192.168.2.112 ansible_user=hypervisor
+[clusterswarm]
+192.168.2.114 ansible_user=root
+192.168.2.115 ansible_user=root
+192.168.2.116 ansible_user=root
+192.168.2.117 ansible_user=root

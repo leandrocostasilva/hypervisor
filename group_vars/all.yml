@@ -6,37 +6,38 @@ hypervisor-user: "hypervisor"
 uid: "1000"
 vm_user_group_name: "clusterswarm"
 vm_user_group_id: "1000"
+vm_domain_name: "clusterswarm"
 
 guests:
-  swarm_master:
+  swarm_node1:
     mem: 2048
     cpus: 2
     os_type_disk: fedora-31
     os_type: fedora31
     file_type: qcow2
     macadress: 08:00:27:04:3A:FC
-    networkname: cluster.swarm.master
-  swarm_worker1:
+    networkname: cluster.swarm.node1
+  swarm_node2:
     mem: 2048
     cpus: 2
     os_type_disk: fedora-31
     os_type: fedora31
     file_type: qcow2
     macadress: 08:00:27:9D:6E:D2
-    networkname: cluster.swarm.worker1
-  swarm_worker2:
+    networkname: cluster.swarm.node2
+  swarm_node3:
     mem: 2048
     cpus: 2
     os_type_disk: fedora-31
     os_type: fedora31
     file_type: qcow2
     macadress: 08:00:27:7D:75:34
-    networkname: cluster.swarm.worker2
-  swarm_worker3:
+    networkname: cluster.swarm.node3
+  swarm_node4:
     mem: 2048
     cpus: 2
     os_type_disk: fedora-31
     os_type: fedora31
     file_type: qcow2
     macadress: 52:54:00:8a:de:36
-    networkname: cluster.swarm.worker3
+    networkname: cluster.swarm.node4

@@ -1,0 +1,41 @@
+---
+- name: Adicionando usuário clusterswarm
+  user:
+    name: clusterswarm
+    comment: clusterswarm
+    groups: wheel
+    append: yes
+    shell: /bin/bash
+    create_home: no
+    password: clusterswarm
+  become: yes
+
+- name: Configurando o docker
+  shell:
+    cmd: curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
+  become: yes
+
+- name: Configurando o cgroup
+  shell:
+    cmd: grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
+  become: yes    
+
+- name: Adicionando o usuario da vm ao grupo docker
+  user:
+    name: 'fedora'
+    comment: usuario do hypervisor
+    uid: '1000'
+    group: docker
+  become: yes
+  
+- name: starta servico docker
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+  become: yes
+
+- name: Desabilitar SELinux
+  selinux:
+    state: disabled
+  become: yes
